@@ -119,7 +119,7 @@ echo "masternode=1" >> $CONF_DIR/$CONF_FILE
 echo "" >> $CONF_DIR/$CONF_FILE
 echo "" >> $CONF_DIR/$CONF_FILE
 echo "port=$PORT" >> $CONF_DIR/$CONF_FILE
-echo "masternodeaddr=$IP:$PORT" >> $CONF_DIR/$CONF_FILE
+echo "externalip=$IP" >> $CONF_DIR/$CONF_FILE
 echo "masternodeprivkey=$PRIVKEY" >> $CONF_DIR/$CONF_FILE
 $MERGED -resync
 echo "If the server fails to start, try $MERGED -reindex"
