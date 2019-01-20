@@ -51,6 +51,10 @@ sudo apt-get install -y dos2unix
 sudo apt-get install -y zlib1g-dev
 sudo apt-get install -y curl
 sudo apt-get install -y ufw
+sudo apt-get install -y libgmp-dev 
+sudo apt-get install -y libssl-dev 
+sudo apt-get install -y libcurl4-openssl-dev 
+sudo apt-get install -y wge
 sudo apt-get install -y software-properties-common 
 sudo add-apt-repository -y ppa:bitcoin/bitcoin
 sudo apt-get update
