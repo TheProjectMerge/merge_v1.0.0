@@ -136,7 +136,7 @@ STRING_ADDNODES=`awk -v loop=10 -v range=$ARR_LENGTH -v arr="${arr_ip[*]}" 'BEGI
     if (!(numb in prev)) {
        if(count>0)
           printf ","
-       printf "addnode=%s",list[numb]
+       printf "addnode=%s:52000",list[numb]
        prev[numb] = 1
        count++
     }
