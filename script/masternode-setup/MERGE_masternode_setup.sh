@@ -54,7 +54,7 @@ sudo apt-get install -y ufw
 sudo apt-get install -y libgmp-dev 
 sudo apt-get install -y libssl-dev 
 sudo apt-get install -y libcurl4-openssl-dev 
-sudo apt-get install -y wge
+sudo apt-get install -y wget
 sudo apt-get install -y software-properties-common 
 sudo add-apt-repository -y ppa:bitcoin/bitcoin
 sudo apt-get update
