@@ -51,8 +51,6 @@ sudo apt-get install -y dos2unix
 sudo apt-get install -y zlib1g-dev
 sudo apt-get install -y curl
 sudo apt-get install -y ufw
-sudo apt-get install -y curl
-sudo apt-get install -y ufw
 sudo apt-get install -y software-properties-common 
 sudo add-apt-repository -y ppa:bitcoin/bitcoin
 sudo apt-get update
@@ -60,7 +58,7 @@ sudo ufw allow ssh/tcp
 sudo ufw limit ssh/tcp
 sudo ufw logging on
 sudo ufw allow 22
-sudo ufw allow 62000
+sudo ufw allow 52000
 echo "y" | sudo ufw enable
 sudo ufw status
 echo ""
@@ -101,7 +99,7 @@ read PRIVKEY
 CONF_DIR=~/.merge
 CONF_FILE=merge.conf
 today=`date '+%Y_%m_%d_%H-%M-%S'`
-echo "mv ~/.Merge ~/.Merge.oldtestnet.$today"
+echo "mv $CONF_DIR $CONF_DIR.oldnetwork.$today"
 mv $CONF_DIR $CONF_DIR.oldnetwork.$today
 
 # Edit configuration file
@@ -117,10 +115,35 @@ echo "logtimestamps=1" >> $CONF_DIR/$CONF_FILE
 echo "maxconnections=256" >> $CONF_DIR/$CONF_FILE
 echo "masternode=1" >> $CONF_DIR/$CONF_FILE
 echo "" >> $CONF_DIR/$CONF_FILE
-echo "" >> $CONF_DIR/$CONF_FILE
 echo "port=$PORT" >> $CONF_DIR/$CONF_FILE
 echo "externalip=$IP" >> $CONF_DIR/$CONF_FILE
 echo "masternodeprivkey=$PRIVKEY" >> $CONF_DIR/$CONF_FILE
+echo "" >> $CONF_DIR/$CONF_FILE
+# shuffle among predefined addnodes
+declare -a arr_ip=("149.28.52.154" "144.202.50.69" "104.238.146.20" "144.202.120.254" "45.63.105.42" "54.39.37.35" "54.39.37.36" "54.39.37.37" "54.39.37.39" "54.39.37.40" "66.42.78.65" "45.77.187.63" "149.248.58.187" "185.92.220.61" "173.199.70.76" "50.3.74.76" "199.188.100.174" "104.206.242.136" "107.174.59.173" "107.172.27.143" "54.39.37.41" "54.39.37.42" "54.39.37.43" "54.39.37.44" "149.56.4.253" "45.32.37.22" "45.77.169.99" "209.250.227.55" "45.63.119.183" "95.179.176.55" "130.255.76.82" "95.179.162.143" "45.77.64.136" "149.248.52.218" "104.238.137.115" "45.76.228.139")
+
+ARR_LENGTH=${#arr_ip[@]}
+
+STRING_ADDNODES=`awk -v loop=10 -v range=$ARR_LENGTH -v arr="${arr_ip[*]}" 'BEGIN{
+  split(arr, list, " ")
+  srand()
+  do {
+    numb = 1 + int(rand() * range)
+    if (!(numb in prev)) {
+       if(count>0)
+          printf ","
+       printf "addnode=%s",list[numb]
+       prev[numb] = 1
+       count++
+    }
+  } while (count<loop)
+}'`
+
+IFS=',' read -ra ARRAY_ADDNODES <<< "$STRING_ADDNODES"
+for i in "${ARRAY_ADDNODES[@]}"; do
+    echo "$i" >> $CONF_DIR/$CONF_FILE
+done
+
 $MERGED -resync
 echo "If the server fails to start, try $MERGED -reindex"
 echo ""
