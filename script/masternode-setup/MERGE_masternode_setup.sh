@@ -128,7 +128,7 @@ declare -a arr_ip=("149.28.52.154" "144.202.50.69" "104.238.146.20" "144.202.120
 
 ARR_LENGTH=${#arr_ip[@]}
 
-STRING_ADDNODES=`awk -v loop=10 -v range=$ARR_LENGTH -v arr="${arr_ip[*]}" 'BEGIN{
+STRING_ADDNODES=`awk -v loop=10 -v range=$ARR_LENGTH -v arr="${arr_ip[*]}" -v port=$PORT 'BEGIN{
   split(arr, list, " ")
   srand()
   do {
@@ -136,7 +136,7 @@ STRING_ADDNODES=`awk -v loop=10 -v range=$ARR_LENGTH -v arr="${arr_ip[*]}" 'BEGI
     if (!(numb in prev)) {
        if(count>0)
           printf ","
-       printf "addnode=%s:52000",list[numb]
+       printf "addnode=%s:%s",list[numb],port
        prev[numb] = 1
        count++
     }
