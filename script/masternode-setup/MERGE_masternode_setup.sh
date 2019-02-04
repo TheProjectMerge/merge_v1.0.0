@@ -41,7 +41,6 @@ apt-get update
 apt-get install -y build-essential
 apt-get install -y autoconf
 apt-get install -y automake
-apt-get install -y libssl1.0-dev
 apt-get install -y libboost-all-dev
 apt-get install -y libdb4.8-dev 
 apt-get install -y libdb4.8++-dev
