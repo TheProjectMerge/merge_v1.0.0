@@ -16,6 +16,14 @@ echo "**************************************************************************
 echo "*                           Installation Script                            *"
 echo "****************************************************************************"
 echo ""
+if [[ $EUID -ne 0 ]]; then
+   echo "********************************************************************************"
+   echo "* Please run this script as root. If you're not root, please run it as follows *"
+   echo "*                                                                              *"
+   echo "* sudo bash ./MERGE_masternode_setup.sh                                        *"
+   echo "********************************************************************************"
+   exit 1
+fi
 echo ""
 
 echo "Hit [ENTER] to start the masternode setup"
@@ -29,42 +37,42 @@ MERGE_TX=`find . -name "$MERGE_TX_CMD" | tail -1`
 MERGED=`find . -name "$MERGED_CMD" | tail -1`
 $MERGE_CLI stop
 echo "Configuring your VPS with the recommended settings..."
-sudo apt-get update
-sudo apt-get install -y build-essential
-sudo apt-get install -y autoconf
-sudo apt-get install -y automake
-sudo apt-get install -y libssl1.0-dev
-sudo apt-get install -y libboost-all-dev
-sudo apt-get install -y libdb4.8-dev 
-sudo apt-get install -y libdb4.8++-dev
-sudo apt-get install -y libevent-pthreads-2.0-5
-sudo apt-get install -y miniupnpc
-sudo apt-get install -y pkg-config
-sudo apt-get install -y libtool
-sudo apt-get install -y libevent-dev
-sudo apt-get install -y git
-sudo apt-get install -y screen
-sudo apt-get install -y autotools-dev
-sudo apt-get install -y bsdmainutils
-sudo apt-get install -y lsof
-sudo apt-get install -y dos2unix
-sudo apt-get install -y zlib1g-dev
-sudo apt-get install -y curl
-sudo apt-get install -y ufw
-sudo apt-get install -y libgmp-dev 
-sudo apt-get install -y libssl-dev 
-sudo apt-get install -y libcurl4-openssl-dev 
-sudo apt-get install -y wget
-sudo apt-get install -y software-properties-common 
-sudo add-apt-repository -y ppa:bitcoin/bitcoin
-sudo apt-get update
-sudo ufw allow ssh/tcp
-sudo ufw limit ssh/tcp
-sudo ufw logging on
-sudo ufw allow 22
-sudo ufw allow 52000
-echo "y" | sudo ufw enable
-sudo ufw status
+apt-get update
+apt-get install -y build-essential
+apt-get install -y autoconf
+apt-get install -y automake
+apt-get install -y libssl1.0-dev
+apt-get install -y libboost-all-dev
+apt-get install -y libdb4.8-dev 
+apt-get install -y libdb4.8++-dev
+apt-get install -y libevent-pthreads-2.0-5
+apt-get install -y miniupnpc
+apt-get install -y pkg-config
+apt-get install -y libtool
+apt-get install -y libevent-dev
+apt-get install -y git
+apt-get install -y screen
+apt-get install -y autotools-dev
+apt-get install -y bsdmainutils
+apt-get install -y lsof
+apt-get install -y dos2unix
+apt-get install -y zlib1g-dev
+apt-get install -y curl
+apt-get install -y ufw
+apt-get install -y libgmp-dev 
+apt-get install -y libssl-dev 
+apt-get install -y libcurl4-openssl-dev 
+apt-get install -y wget
+apt-get install -y software-properties-common 
+add-apt-repository -y ppa:bitcoin/bitcoin
+apt-get update
+ufw allow ssh/tcp
+ufw limit ssh/tcp
+ufw logging on
+ufw allow 22
+ufw allow 52000
+echo "y" | ufw enable
+ufw status
 echo ""
 echo ""
 echo "Installing/Updating your masternode..."
@@ -87,7 +95,7 @@ MERGED=`find . -name "$MERGED_CMD" | tail -1`
 
 echo "Masternode Configuration"
 # Ask for the IP address
-IP=$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tail -n 1)
+IP=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tail -n 1)
 echo "Your IP address is: $IP"
 echo "Is this the IP address you wish to use for your masternode? [y/n], followed by [ENTER]"
 read ipd
