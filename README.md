@@ -1,3 +1,11 @@
+## This is an outdated repository!
+
+## Find the latest code and releases at:
+
+* Source Code: http://coin.projectmerge.org
+* Wallet Releases: http://coin.projectmerge.org/wallet
+
+
 Merge Coin
 ==========
 
